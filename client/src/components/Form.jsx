@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { postUser } from '../actions';
 import FormErrors from './FormErrors';
 import './Form.css';
-import axios from 'axios';
 
 class Form extends Component {
 
@@ -81,18 +82,13 @@ class Form extends Component {
     e.preventDefault();
     const { firstName, lastName, email, date } = this.state;
     
-    axios.post('http://localhost:3001/api/adduser', {
-            'first_name': firstName,
-            'last_name': lastName,
-            'email': email,
-            'date': date
-        })
-            .then( (response) => {
-                console.log(response);
-            })
-            .catch( (error) => {
-                console.log(error);
-            });
+    this.props.postUser( {
+
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': email,
+      'date': date
+    })
   }
 
   render() {
@@ -129,4 +125,10 @@ class Form extends Component {
   }
 }
 
-export default Form;
+function mapStateToProps(state) {
+  return {
+    users: state
+  }
+}
+
+export default connect(mapStateToProps, { postUser })(Form);
