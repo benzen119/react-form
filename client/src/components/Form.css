@@ -1,6 +1,20 @@
 
 .form-wrapper{
-    max-width: 400px;
     color: #ffffff;
-    margin-top: 150px;
+    font-size: 14px;
+    max-width: 320px;
+}
+
+.btn-primary{
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.form-control{
+    font-size: 12px;
+}
+
+p.success-text{
+    font-size: 18px;
+    font-weight: 600;
 }

@@ -6,7 +6,7 @@ const User = require('../models/user');
 router.post('/adduser', (req, res, next) => {
   console.log(req.body);
   User.create(req.body).then((user) => {
-    res.send('User added successfully');
+    res.send('User saved successfully');
   }).catch(next);
 });
 

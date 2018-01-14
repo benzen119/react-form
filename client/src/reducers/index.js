@@ -1,9 +1,18 @@
 import { ADD_USER_SUCCESS } from '../constants';
 
-export default (state = [], action) => {
+let status = {
+    success: null
+}
+
+export default (state = status, action) => {
+
     switch (action.type) {
         case ADD_USER_SUCCESS:
-            return action.user;
+           const { success } = action;
+           status = {
+               success
+           }
+           return status;
         default:
             return state;
     }

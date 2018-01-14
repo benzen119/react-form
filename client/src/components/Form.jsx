@@ -17,8 +17,7 @@ class Form extends Component {
       firstNameValid: false,
       lastNameValid: false,
       emailValid: false,
-      dateValid: false,
-      formValid: false
+      dateValid: false
     }
   }
 
@@ -45,14 +44,14 @@ class Form extends Component {
         break;
       case 'firstName':
         firstNameValid = value.length > 1;
-        formErrors.firstName = firstNameValid ? '' : 'First name needs to be at least 2 characters';
+        formErrors.firstName = firstNameValid ? '' : 'First name needs to be at least 2 characters long';
         if (value === '') {
           formErrors.firstName = false;
         }
         break;
       case 'lastName':
         lastNameValid = value.length > 1;
-        formErrors.lastName = lastNameValid ? '' : 'Last name needs to be at least 2 characters';
+        formErrors.lastName = lastNameValid ? '' : 'Last name needs to be at least 2 characters long';
         if (value === '') {
           formErrors.lastName = false;
         }
@@ -75,51 +74,65 @@ class Form extends Component {
       firstNameValid,
       lastNameValid,
       dateValid
-    }, this.validateForm);
+    });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { firstName, lastName, email, date } = this.state;
+    const { firstName, lastName, email, date, emailValid, firstNameValid, lastNameValid, dateValid } = this.state;
     
-    this.props.postUser( {
+    if(firstNameValid && lastNameValid && emailValid && dateValid){
+      this.props.postUser({
 
-      'first_name': firstName,
-      'last_name': lastName,
-      'email': email,
-      'date': date
-    })
+        'first_name': firstName,
+        'last_name': lastName,
+        'email': email,
+        'date': date
+      })
+    }
   }
 
   render() {
-    return (
-        <div className="container form-wrapper">
-        <form onSubmit={this.handleSubmit}>
-          <h2>Brainhub app</h2>
-            <div className="form-group my-4">
-              <label htmlFor="first_name">First name</label>
-            <input type="text" className="form-control" id="first_name" name="firstName" onChange={this.handleUserInput}
-              placeholder="Type your first name" required />
-            </div>
-           <div className="form-group">
-              <label htmlFor="last_name">Last name</label>
-            <input type="text" className="form-control" id="last_name" name="lastName" onChange={this.handleUserInput}
-              placeholder="Type your last name" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-            <input type="email" className="form-control" id="email" name="email" onChange={this.handleUserInput}
-              placeholder="Type your email"  />
-            </div>
-            <div className="form-group">
-              <label htmlFor="date">Event date</label>
-            <input type="date" className="form-control" id="date" name="date" onChange={this.handleUserInput} />
-            </div>
-            <button type="submit" className=" my-2 btn btn-primary">Send data</button>
-          </form>
-          <div className="container">
-          <FormErrors formErrors={this.state.formErrors} />
+    const { success } = this.props.status;
+    return ( 
+        <div className="container form-wrapper my-5">
+
+        { success ? (
+
+          <div className="text-center my-5">
+            <p className="success-text">User successfully saved in database!</p>
           </div>
+
+        ) : (
+            <div>
+              <form onSubmit={this.handleSubmit}>
+                <h3 className="my-3">Brainhub app</h3>
+                <div className="form-group">
+                  <label htmlFor="first_name">First name</label>
+                  <input type="text" className="form-control" id="first_name" name="firstName" onChange={this.handleUserInput}
+                    placeholder="Type your first name" required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="last_name">Last name</label>
+                  <input type="text" className="form-control" id="last_name" name="lastName" onChange={this.handleUserInput}
+                    placeholder="Type your last name" required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
+                  <input type="email" className="form-control" id="email" name="email" onChange={this.handleUserInput}
+                    placeholder="Type your email" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="date">Event date</label>
+                  <input type="date" className="form-control" id="date" name="date" onChange={this.handleUserInput} />
+                </div>
+                <button type="submit" className=" my-2 btn btn-primary">Send data</button>
+              </form>
+              <div className="container">
+                <FormErrors formErrors={this.state.formErrors} />
+              </div>
+            </div>
+        )}
         </div>
     );
   }
@@ -127,7 +140,7 @@ class Form extends Component {
 
 function mapStateToProps(state) {
   return {
-    users: state
+    status: state
   }
 }
 

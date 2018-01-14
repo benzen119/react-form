@@ -7,17 +7,18 @@ export const postUser = (user) => {
     return (dispatch) => {
         return axios.post(url, user)
             .then(response => {
-                dispatch(postUserSuccess(response.data))
+                console.log(response);
+                dispatch(addUserSuccess(true))
             })
             .catch(error => {
-                throw (error);
+                 console.log(error);
             });
     };
 };
 
-export const postUserSuccess = (user) => {
+export const addUserSuccess = (success) => {
     return {
         type: ADD_USER_SUCCESS,
-        user
+        success
     }
 };

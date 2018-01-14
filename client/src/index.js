@@ -7,13 +7,13 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import thunk from 'redux-thunk';
 import reducer from './reducers';
-import { applyMiddleware } from '../../../../AppData/Local/Microsoft/TypeScript/2.6/node_modules/redux';
+import { applyMiddleware } from 'redux';
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
     <Provider store={store}>
-        <Form />
+       <Form />
     </Provider>,
      document.getElementById('root'));
 registerServiceWorker();
